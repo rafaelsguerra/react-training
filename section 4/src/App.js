@@ -5,28 +5,35 @@ import Person from './Person/Person';
 class App extends Component {
   state = {
     persons: [
-      {name: 'Rafael', age:24},
-      {name: 'Chico', age:22},
-      {name: 'Cintra', age:22}
+      { id:'feuhea', name: 'Rafael', age:24},
+      { id:'ohfeuf', name: 'Chico', age:22},
+      { id:'ifheeg', name: 'Cintra', age:22}
     ],
     showpersons: false
   }
 
   deletePersonHandler = (personIndex) => {
     //const persons = this.state.persons.slice();
-    const persons = [...this.state.persons];  
+    const persons = [...this.state.persons];
     persons.splice(personIndex, 1);
     this.setState({persons: persons});
   }
 
-  nameChangeHandler = (event) => {
-    this.setState({
-      persons: [
-        {name: 'Rafael', age:24},
-        {name: event.target.value, age:22},
-        {name: 'Cintrololo', age:22}
-      ]
-    })
+  nameChangeHandler = (event, id) => {
+     const personIndex = this.state.persons.findIndex(p => {
+       return p.id === id;
+     });
+
+     const person = {
+         ...this.state.persons[personIndex]
+     };
+
+     person.name = event.target.value;
+
+     const persons = [...this.state.persons];
+     persons[personIndex] = person;
+
+    this.setState({persons:persons });
   }
 
   togglePersonsHandler = () => {
@@ -48,14 +55,16 @@ class App extends Component {
 
     if (this.state.showpersons) {
       persons = (
-          <div>
-            {this.state.persons.map((person, index) => {
-              return <Person
-                click={() => this.deletePersonHandler(index)}
-                name={person.name}
-                age={person.age}/>
-            })}
-          </div>
+        <div>
+          {this.state.persons.map((person, index) => {
+            return <Person
+              click={() => this.deletePersonHandler(index)}
+              name={person.name}
+              age={person.age}
+              key={person.id}
+              changed={(event) => this.nameChangeHandler(event, person.id)}/>
+          })}
+        </div>
       );
     }
 
