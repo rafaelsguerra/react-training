@@ -1,0 +1,8 @@
+.Box{
+    display: inline-block;
+    border: 1px solid lightgray;
+    box-shadow: 0px 2px 2px #eee;
+    margin: 15px 10px 5px 5px;
+    padding: 5px;
+    width: 200px;
+}
